@@ -1,0 +1,8 @@
+{
+  "name": "PawNames - Your Pet's Soul Name",
+  "description": "An elegant, iOS-inspired AI pet naming application that uses advanced vision and text generation to find the perfect name for your companion.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
