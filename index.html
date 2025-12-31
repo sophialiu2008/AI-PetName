@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PawNames</title>
+    <title>Petsoul - 名字是爱的第一份礼物</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Noto+Serif+SC:wght@300;700&family=Outfit:wght@300;400;600;700&family=JetBrains+Mono&display=swap');
         
         :root {
             --ios-pink: #FF6B9D;
@@ -18,17 +18,30 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--ios-bg);
             -webkit-tap-highlight-color: transparent;
             user-select: none;
-            overflow: hidden; /* 防止转场时的滚动条闪烁 */
+            overflow: hidden;
         }
 
         #root {
             height: 100vh;
             width: 100vw;
             overflow: hidden;
+        }
+
+        .brand-font {
+            font-family: 'Bodoni Moda', serif;
+            letter-spacing: 0.05em;
+            font-weight: 800;
+            font-variant-caps: small-caps;
+        }
+
+        .slogan-font {
+            font-family: 'Noto Serif SC', serif;
+            letter-spacing: 0.2em;
+            font-weight: 300;
         }
 
         .sf-mono {
@@ -44,7 +57,6 @@
             -webkit-backdrop-filter: blur(20px);
         }
 
-        /* Safe area handling */
         .pb-safe {
             padding-bottom: env(safe-area-inset-bottom);
         }
@@ -52,7 +64,6 @@
             padding-top: env(safe-area-inset-top);
         }
 
-        /* Animations */
         @keyframes wave {
             0% { transform: scale(1); opacity: 0.5; }
             100% { transform: scale(1.5); opacity: 0; }

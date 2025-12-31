@@ -48,11 +48,13 @@ export const geminiService = {
   async generateNamesWithGrounding(params: {
     petType: string;
     personality: string[];
+    language: 'zh' | 'en';
   }) {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-    const prompt = `为一只${params.petType}推荐5个名字，性格特点：${params.personality.join(',')}. 
-    请使用Google Search搜索这些名字在当下的流行度、是否有特殊的文化含义或最近相关的热门事件。
-    返回JSON格式。`;
+    const prompt = `Recommend 5 names for a ${params.petType} with personality traits: ${params.personality.join(',')}. 
+    Please use Google Search to find current popularity, cultural meaning, or recent trending events related to these names.
+    IMPORTANT: Provide the response in ${params.language === 'zh' ? 'Chinese' : 'English'}.
+    Return JSON format.`;
 
     const response = await ai.models.generateContent({
       model: APP_CONFIG.MODELS.TEXT,
@@ -67,8 +69,8 @@ export const geminiService = {
             properties: {
               name: { type: Type.STRING },
               meaning: { type: Type.STRING },
-              trends: { type: Type.STRING, description: "基于搜索结果的流行度分析" },
-              sources: { type: Type.ARRAY, items: { type: Type.STRING }, description: "参考链接" },
+              trends: { type: Type.STRING, description: "Popularity analysis based on search results" },
+              sources: { type: Type.ARRAY, items: { type: Type.STRING }, description: "Reference links" },
               popularity: {
                 type: Type.OBJECT,
                 properties: { global: { type: Type.NUMBER } }
@@ -87,7 +89,46 @@ export const geminiService = {
     };
   },
 
-  async analyzePetImage(base64Image: string) {
+  async generateAstroNames(params: {
+    zodiac: string;
+    element: string;
+    language: 'zh' | 'en';
+  }) {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const prompt = `Recommend 5 names for a pet based on:
+    - Zodiac: ${params.zodiac}
+    - Element: ${params.element} (Wuxing)
+    
+    Requirements:
+    1. Names should reflect zodiac traits.
+    2. Meaning should include astrological interpretation.
+    3. Respond in ${params.language === 'zh' ? 'Chinese' : 'English'}.
+    4. Return JSON format.`;
+
+    const response = await ai.models.generateContent({
+      model: APP_CONFIG.MODELS.TEXT,
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              name: { type: Type.STRING },
+              meaning: { type: Type.STRING },
+              trends: { type: Type.STRING, description: "Astrological interpretation" }
+            },
+            required: ["name", "meaning", "trends"]
+          }
+        }
+      }
+    });
+
+    return { data: JSON.parse(response.text || '[]') };
+  },
+
+  async analyzePetImage(base64Image: string, language: 'zh' | 'en') {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const imagePart = {
       inlineData: {
@@ -97,9 +138,10 @@ export const geminiService = {
     };
     const textPart = { 
       text: `Analyze this pet photo. 
-      Identify its species (choose ONLY from: 小狗, 小猫, 小鸟, 兔兔, 仓鼠, 其他).
+      Identify its species.
       Identify its possible breed.
-      Identify primary personality traits (choose ONLY from: 调皮活泼, 温柔粘人, 高冷傲娇, 憨态可掬, 聪明伶俐, 贪吃懒做). 
+      Identify primary personality traits. 
+      Respond in ${language === 'zh' ? 'Chinese' : 'English'}.
       Return as JSON.` 
     };
 
@@ -123,7 +165,7 @@ export const geminiService = {
     return JSON.parse(response.text || '{}');
   },
 
-  // NEW: Process audio to extract form intents
+  // Process audio to extract form intents
   async extractIntentFromAudio(audioBase64: string, mimeType: string, options: any) {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const audioPart = {

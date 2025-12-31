@@ -7,6 +7,14 @@ export enum PetType {
   Other = 'OTHER'
 }
 
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  avatar?: string;
+  joinedAt: string;
+}
+
 export interface PetProfile {
   id: string;
   name: string;
@@ -31,6 +39,14 @@ export interface NameSuggestion {
   isFavorite: boolean;
 }
 
+export interface Comment {
+  id: string;
+  userName: string;
+  userAvatar: string;
+  text: string;
+  time: string;
+}
+
 export interface CommunityPost {
   id: string;
   userName: string;
@@ -40,4 +56,8 @@ export interface CommunityPost {
   images: string[];
   likes: number;
   comments: number;
+  type: 'story' | 'pk' | 'challenge';
+  pollOptions?: { id: string; text: string; votes: number }[];
+  challengeTag?: string;
+  commentsList?: Comment[];
 }

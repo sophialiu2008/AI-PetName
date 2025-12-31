@@ -15,7 +15,6 @@ const LiveConsultation: React.FC = () => {
   const sessionRef = useRef<any>(null);
 
   useEffect(() => {
-    // Initial UI state
     return () => {
       stopSession();
     };
@@ -29,7 +28,7 @@ const LiveConsultation: React.FC = () => {
       audioContextRef.current = outputAudioContext;
 
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      streamRef.ref = stream;
+      streamRef.current = stream;
 
       let nextStartTime = 0;
       const sources = new Set<AudioBufferSourceNode>();
@@ -100,26 +99,36 @@ const LiveConsultation: React.FC = () => {
 
   return (
     <div className="fixed inset-0 bg-[#0A0A0A] z-[300] flex flex-col items-center justify-between py-20 px-10 text-white overflow-hidden">
-      {/* Siri-like Background Glow */}
+      {/* iOS Style Home Button */}
+      <div className="absolute top-12 right-6 z-50">
+        <button 
+          onClick={() => {
+            stopSession();
+            navigate('/');
+          }} 
+          className="p-3 bg-white/10 rounded-full active:scale-90 transition-transform backdrop-blur-md"
+        >
+          <ICONS.Home size={20} />
+        </button>
+      </div>
+
       <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[120px] transition-all duration-1000 ${
         isConnected ? (isTalking ? 'bg-[#FF6B9D]/30 scale-110' : 'bg-[#007AFF]/20 scale-100') : 'bg-white/5 scale-75'
       }`} />
 
       <div className="relative z-10 text-center">
-        <h1 className="text-2xl font-bold mb-2">AI 灵感专家</h1>
-        <p className={`text-sm transition-opacity duration-300 ${isConnected ? 'opacity-60' : 'opacity-30'}`}>
+        <h1 className="text-2xl font-bold mb-2 tracking-tight">AI 灵感专家</h1>
+        <p className={`text-sm transition-opacity duration-300 font-medium ${isConnected ? 'opacity-80' : 'opacity-40'}`}>
           {isConnected ? (isTalking ? '专家正在为您构思...' : '请说出您宠物的特点') : '准备与 AI 进行语音通话'}
         </p>
       </div>
 
-      {/* Central Visualizer */}
       <div className="relative w-64 h-64 flex items-center justify-center">
         <div className={`absolute inset-0 border-2 rounded-full transition-all duration-500 ${isConnected ? 'border-white/20 animate-pulse' : 'border-white/5'}`} />
-        <div className={`w-32 h-32 rounded-full bg-gradient-to-br from-[#FF6B9D] to-[#FFD700] flex items-center justify-center shadow-[0_0_50px_rgba(255,107,157,0.5)] transition-transform duration-300 ${isTalking ? 'scale-110' : 'scale-100'}`}>
+        <div className={`w-32 h-32 rounded-full bg-gradient-to-br from-[#FF6B9D] to-[#FFD700] flex items-center justify-center shadow-[0_0_50px_rgba(255,107,157,0.4)] transition-transform duration-300 ${isTalking ? 'scale-110' : 'scale-100'}`}>
           <ICONS.Mic size={48} className="text-white" />
         </div>
         
-        {/* Animated Rings */}
         {isTalking && (
           <>
             <div className="absolute inset-0 border border-[#FF6B9D] rounded-full animate-wave" />
@@ -132,14 +141,14 @@ const LiveConsultation: React.FC = () => {
         {!isConnected ? (
           <button 
             onClick={startSession}
-            className="w-20 h-20 rounded-full bg-[#34C759] flex items-center justify-center shadow-xl active:scale-90 transition-transform"
+            className="w-20 h-20 rounded-full bg-[#34C759] flex items-center justify-center shadow-xl shadow-[#34C759]/20 active:scale-90 transition-transform"
           >
             <ICONS.Phone size={32} />
           </button>
         ) : (
           <button 
             onClick={stopSession}
-            className="w-20 h-20 rounded-full bg-[#FF3B30] flex items-center justify-center shadow-xl active:scale-90 transition-transform"
+            className="w-20 h-20 rounded-full bg-[#FF3B30] flex items-center justify-center shadow-xl shadow-[#FF3B30]/20 active:scale-90 transition-transform"
           >
             <ICONS.Close size={32} />
           </button>
@@ -147,7 +156,7 @@ const LiveConsultation: React.FC = () => {
         
         <button 
           onClick={() => navigate(-1)}
-          className="text-white/40 text-sm font-medium active:opacity-100"
+          className="text-white/40 text-sm font-bold active:opacity-100 tracking-wide"
         >
           离开咨询室
         </button>

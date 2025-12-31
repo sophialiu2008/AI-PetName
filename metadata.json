@@ -1,6 +1,6 @@
 {
-  "name": "PawNames - Your Pet's Soul Name",
-  "description": "An elegant, iOS-inspired AI pet naming application that uses advanced vision and text generation to find the perfect name for your companion.",
+  "name": "Petsoul - 名字是爱的第一份礼物",
+  "description": "Petsoul 是一款优雅的、受 iOS 启发且由 AI 驱动的宠物命名应用。通过视觉识别与文本生成，为您的爱宠寻找那份命中注定的名字。",
   "requestFramePermissions": [
     "camera",
     "microphone"

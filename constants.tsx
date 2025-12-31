@@ -20,7 +20,11 @@ import {
   Mic,
   Phone,
   X,
-  Globe
+  Globe,
+  User,
+  Lock,
+  Mail,
+  LogOut
 } from 'lucide-react';
 
 export const COLORS = {
@@ -32,7 +36,8 @@ export const COLORS = {
   textSecondary: '#8E8E93',
   error: '#FF3B30',
   success: '#34C759',
-  warning: '#FFCC00'
+  warning: '#FFCC00',
+  link: '#007AFF'
 };
 
 export const ICONS = {
@@ -55,7 +60,11 @@ export const ICONS = {
   Mic: Mic,
   Phone: Phone,
   Close: X,
-  Globe: Globe
+  Globe: Globe,
+  User: User,
+  Lock: Lock,
+  Mail: Mail,
+  LogOut: LogOut
 };
 
 export const APP_CONFIG = {
